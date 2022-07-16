@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id Int @id @default(autoincrement())
+  name String
+  email String @unique
+  password String
+  sessions Sessions[]
+  credentials Credentials[]
+  secret_notes SecretNotes[]
+  cards Cards[]
+  wifi Wifi[]
+
+  @@map("users")
+}
+
+model Sessions {
+  id Int @id @default(autoincrement())
+  token String
+  userId Int
+  users Users @relation(fields: [userId], references: [id])
+
+  @@map("sessions")
+}
+
+model Credentials{
+  id Int @id @default(autoincrement())
+  label String
+  url String 
+  password String
+  userId Int
+  users Users @relation(fields: [userId], references: [id])
+
+  @@map("credentials")
+}
+
+model SecretNotes{
+  id Int @id @default(autoincrement())
+  label String
+  notes String
+  userId Int
+  users Users @relation(fields: [userId], references: [id])
+
+  @@map("secret_notes")
+}
+
+model Wifi{
+  id Int @id @default(autoincrement())
+  label String
+  name String 
+  password String
+  userId Int
+  users Users @relation(fields: [userId], references: [id])
+
+  @@map("wifis")
+}
+
+model Cards{
+  id Int @id @default(autoincrement())
+  label String
+  number String
+  name String
+  expirationDate String
+  securityCode String
+  type String
+  password String
+  isVirtual Boolean
+  userId Int
+  users Users @relation(fields: [userId], references: [id])
+
+  @@map("cards")
+}
