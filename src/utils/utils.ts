@@ -1,6 +1,7 @@
 import * as bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import Cryptr from "cryptr";
+import { Credentials } from "@prisma/client";
 
 const cryptr = new Cryptr('myTotallySecretKey');
 
@@ -26,12 +27,18 @@ function decryptData(encrypted:string){
     return decryptedData;
 }
 
+function getDataWithDecryptedPassword(data:Credentials[]){
+    data.map((item) => {item.password = decryptData(item.password)});
+    return data;
+}
+
 
 const authUtils = {
     encryptPassword,
     verifyToken,
     encryptData,
-    decryptData
+    decryptData,
+    getDataWithDecryptedPassword
 }
 
 export default authUtils;

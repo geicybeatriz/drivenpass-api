@@ -1,3 +1,4 @@
+import { Credentials } from "@prisma/client";
 import client from "../config/db.js";
 import { CreateCredentialsData } from "../services/credentialServices.js";
 
@@ -15,10 +16,26 @@ async function insert (data:CreateCredentialsData){
     });
 }
 
+async function findAllByUser(userId:number){
+    return await client.credentials.findMany({
+        where:{
+            userId:userId
+        }
+    });
+}
+
+async function findByIdAndUser(id:number, userId:number){
+    return await client.credentials.findFirst({
+        where: {id:id, userId:userId}
+    });
+}
+
 
 
 const repoCredentials = {
     findByLabelAndUserId,
-    insert
+    insert,
+    findAllByUser,
+    findByIdAndUser
 }
 export default repoCredentials;
