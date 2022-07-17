@@ -32,7 +32,6 @@ function getDataWithDecryptedPassword(data:Credentials[]){
     return data;
 }
 
-
 const authUtils = {
     encryptPassword,
     verifyToken,

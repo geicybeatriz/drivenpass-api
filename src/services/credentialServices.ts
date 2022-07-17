@@ -26,8 +26,6 @@ async function createCredential(data:CreateCredentialsData){
 
 async function findAllCredentials(id:number, userId:number){
     const userExist = await repoUsers.findById(userId);
-    console.log("user", userExist);
-
     if(!userExist) throw {type:"not found", message:"user not found"};
 
     if(id){
@@ -42,9 +40,18 @@ async function findAllCredentials(id:number, userId:number){
     return credentialsList;
 }
 
+async function deleteCredential(id:number, userId:number){
+    const verifyCredential = await repoCredentials.findByIdAndUser(id, userId);
+    if(!verifyCredential) throw {type:"not found", message:"credential not found"};
+
+    await repoCredentials.deleteCredential(id);
+    return;
+}
+
 const credentialServices = {
     createCredential,
-    findAllCredentials
+    findAllCredentials,
+    deleteCredential
 };
 
 export default credentialServices;

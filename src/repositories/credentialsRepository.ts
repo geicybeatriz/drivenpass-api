@@ -1,4 +1,3 @@
-import { Credentials } from "@prisma/client";
 import client from "../config/db.js";
 import { CreateCredentialsData } from "../services/credentialServices.js";
 
@@ -14,6 +13,7 @@ async function insert (data:CreateCredentialsData){
     await client.credentials.create({
         data:data
     });
+    return;
 }
 
 async function findAllByUser(userId:number){
@@ -30,12 +30,20 @@ async function findByIdAndUser(id:number, userId:number){
     });
 }
 
+async function deleteCredential(id:number){
+    await client.credentials.delete({
+        where: {id:id}
+    });
+    return
+}
+
 
 
 const repoCredentials = {
     findByLabelAndUserId,
     insert,
     findAllByUser,
-    findByIdAndUser
+    findByIdAndUser,
+    deleteCredential
 }
 export default repoCredentials;
