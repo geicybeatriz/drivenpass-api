@@ -25,9 +25,19 @@ async function getSecretNotes(id:number, userId:number){
     return notesList;
 }
 
+async function deleteNotes(id:number, userId:number){
+    await authUtils.verifyUser(userId);
+    
+    const note = await repoNotes.findByIdAndUser(id, userId);
+    if(!note) throw {type:"not found", message:"note not found"};
+
+    await repoNotes.deleteNoteById(id);
+    return;
+}
 const notesServices = {
     createNotes,
-    getSecretNotes
+    getSecretNotes,
+    deleteNotes
 }
 
 export default notesServices;

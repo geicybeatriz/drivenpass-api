@@ -28,11 +28,19 @@ async function findByUserId(userId:number){
     });
 }
 
+async function deleteNoteById(id:number){
+    await client.secretNotes.delete({
+        where: {id}
+    });
+    return;
+}
+
 const repoNotes = {
     findByLabelAndUser,
     insertNotes,
     findByIdAndUser,
-    findByUserId
+    findByUserId,
+    deleteNoteById
 };
 
 export default repoNotes;

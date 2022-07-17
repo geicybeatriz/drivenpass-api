@@ -17,3 +17,12 @@ export async function getSecretNotes(req:Request, res:Response){
 
     res.status(200).send(notes);
 }
+
+export async function deleteSecretNotes(req:Request, res:Response){
+    const {userId} = res.locals.userId;
+    const id = +req.params.id;
+
+    await notesServices.deleteNotes(id, userId);
+
+    res.sendStatus(200);
+}
