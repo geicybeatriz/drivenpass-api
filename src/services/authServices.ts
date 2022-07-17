@@ -1,4 +1,4 @@
-import { Users } from "@prisma/client";
+import { Sessions, Users } from "@prisma/client";
 import repoUsers from "../repositories/userRepository.js";
 import * as bcrypt from "bcrypt";
 import jwt  from "jsonwebtoken";
@@ -6,12 +6,14 @@ import authUtils from "../utils/utils.js";
 
 export type CreateUserData = Omit<Users, "id">;
 export type LoginUser = Omit<CreateUserData, "name">;
+export type CreateSessionData = Omit<Sessions, "id">;
 
 async function matchEncriptedPassword(encriptedPassword:string, password:string){
     const checkData = await bcrypt.compare(password, encriptedPassword);
     if(!checkData) throw {type:"unauthorized", message:"incorrect password"};
     return checkData;
 }
+
 function generateToken(userId:number){
     const data = { userId };
     const config = {expiresIn:60*60*24};
@@ -37,6 +39,7 @@ async function getUserData(userData:LoginUser){
     await matchEncriptedPassword(user.password, userData.password);
 
     const token = generateToken(user.id);
+    await repoUsers.insertSession({token:token, userId:user.id});
     return token;
 }
 
@@ -46,4 +49,6 @@ const authServices = {
 };
 
 export default authServices;
+
+
 

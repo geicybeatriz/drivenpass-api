@@ -1,5 +1,5 @@
 import client from "../config/db.js";
-import { CreateUserData } from "../services/authServices.js";
+import { CreateUserData, CreateSessionData } from "../services/authServices.js";
 
 
 async function findByEmail(email:string){
@@ -15,11 +15,26 @@ async function insert(userData:CreateUserData){
     })
 }
 
+async function insertSession(data: CreateSessionData){
+    await client.sessions.create({
+        data: data
+    });
+}
+
+async function findById(id:number){
+    return await client.users.findFirst({
+        where: {
+            id
+        }
+    })
+}
 
 
 const repoUsers = {
     findByEmail,
-    insert
+    insert,
+    insertSession,
+    findById
 }
 
 export default repoUsers;
