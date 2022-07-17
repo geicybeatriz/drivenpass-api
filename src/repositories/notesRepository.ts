@@ -16,9 +16,23 @@ async function insertNotes(data:CreateNotesData){
     return;
 }
 
+async function findByIdAndUser(id:number, userId:number){
+    return await client.secretNotes.findFirst({
+        where:{id, userId}
+    });
+}
+
+async function findByUserId(userId:number){
+    return await client.secretNotes.findMany({
+        where:{userId}
+    });
+}
+
 const repoNotes = {
     findByLabelAndUser,
-    insertNotes
+    insertNotes,
+    findByIdAndUser,
+    findByUserId
 };
 
 export default repoNotes;
