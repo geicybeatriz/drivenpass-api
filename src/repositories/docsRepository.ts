@@ -7,6 +7,12 @@ async function findDocsByIdAndUser(id:number, userId:number){
     });
 }
 
+async function findByUserId(userId:number){
+    return await client.documents.findMany({
+        where: {userId:userId}
+    });
+}
+
 async function findByTypeAndUser(type:string, userId:number){
     return await client.documents.findFirst({
         where: {
@@ -22,10 +28,19 @@ async function insert(data:CreateDocumentsData){
     return;
 }
 
+async function deleteDocument(id:number){
+    await client.documents.delete({
+        where: {id:id}
+    });
+    return;
+}
+
 const repoDocuments = {
     findByTypeAndUser,
     findDocsByIdAndUser,
-    insert
+    insert,
+    findByUserId,
+    deleteDocument
 }
 
 export default repoDocuments;
