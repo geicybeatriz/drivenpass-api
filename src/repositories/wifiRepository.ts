@@ -26,11 +26,19 @@ async function insert(data:CreateWifiData){
     return;
 }
 
+async function deleteData(id:number){
+    await client.wifi.delete({
+        where:{id: id}
+    });
+    return;
+}
+
 const repoWifi = {
     findByIdAndUserId,
     findByLabelAndUserId,
     findByUserId,
-    insert
+    insert,
+    deleteData
 }
 
 export default repoWifi;

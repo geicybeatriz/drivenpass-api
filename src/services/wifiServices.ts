@@ -42,11 +42,19 @@ async function getUserWifi(id:number, userId:number){
     return wifiDecrypted;
 }
 
+async function deleteWifi(id:number, userId:number){
+    await authUtils.verifyUser(userId);
+    await verifyWifiById(id, userId);
+    await repoWifi.deleteData(id);
+    return;
+}
+
 
 
 const wifiService = {
     insertWifi,
-    getUserWifi
+    getUserWifi,
+    deleteWifi
 };
 
 export default wifiService;
