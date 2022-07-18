@@ -3,6 +3,8 @@ import repoUsers from "../repositories/userRepository.js";
 import * as bcrypt from "bcrypt";
 import jwt  from "jsonwebtoken";
 import authUtils from "../utils/utils.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 export type CreateUserData = Omit<Users, "id">;
 export type LoginUser = Omit<CreateUserData, "name">;

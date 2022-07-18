@@ -5,5 +5,5 @@ export default function handleErrorsMiddleware(error, req:Request, res:Response,
     if (error.type === "unprocessable entity") return res.status(422).send(error.message);
     if (error.type === "conflict") return res.status(409).send(error.message);
     if (error.type === "unauthorized") return res.status(401).send(error.message);
-    return res.sendStatus(500);
+    return res.status(500).send(error);
 }
