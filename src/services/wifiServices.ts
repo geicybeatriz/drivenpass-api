@@ -16,6 +16,11 @@ async function verifyWifiByLabel(label:string, userId:number){
     return;
 }
 
+function getDecryptedData(data:Wifi[]){
+    data.map((item) => {item.password = authUtils.decryptData(item.password)});
+    return data;
+}
+
 async function insertWifi(data:CreateWifiData){
     await authUtils.verifyUser(data.userId);
     await verifyWifiByLabel(data.label, data.userId);
@@ -24,8 +29,24 @@ async function insertWifi(data:CreateWifiData){
     return;
 }
 
+async function getUserWifi(id:number, userId:number){
+    await authUtils.verifyUser(userId);
+    
+    if(id){
+        const wifi = await verifyWifiById(id, userId);
+        const decryptedPassword = authUtils.decryptData(wifi.password);
+        return ({...wifi, password:decryptedPassword});
+    }
+    const wifiList = await repoWifi.findByUserId(userId);
+    const wifiDecrypted = getDecryptedData(wifiList);
+    return wifiDecrypted;
+}
+
+
+
 const wifiService = {
-    insertWifi
+    insertWifi,
+    getUserWifi
 };
 
 export default wifiService;

@@ -1,4 +1,4 @@
-import { Credentials } from "@prisma/client";
+import { Credentials, Wifi } from "@prisma/client";
 import repoCredentials from "../repositories/credentialsRepository.js";
 import authUtils from "../utils/utils.js";
 

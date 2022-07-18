@@ -13,6 +13,12 @@ async function findByLabelAndUserId(label:string, userId:number){
     });
 }
 
+async function findByUserId(userId:number){
+    return await client.wifi.findMany({
+        where:{userId:userId}
+    });
+}
+
 async function insert(data:CreateWifiData){
     await client.wifi.create({
         data:data
@@ -23,6 +29,7 @@ async function insert(data:CreateWifiData){
 const repoWifi = {
     findByIdAndUserId,
     findByLabelAndUserId,
+    findByUserId,
     insert
 }
 
