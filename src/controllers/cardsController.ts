@@ -16,3 +16,12 @@ export async function getCardsByUser(req:Request, res:Response){
     res.status(200).send(cards);
 
 }
+
+export async function deleteCard(req:Request, res:Response){
+    const id = +req.params.id;
+    const {userId} = res.locals.userId;
+    await cardsServices.deleteCardById(id, userId);
+
+    res.sendStatus(200);
+}
+

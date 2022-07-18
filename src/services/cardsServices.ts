@@ -46,11 +46,20 @@ async function getCardsByUser(id:number, userId:number){
     return cardsDecrypted;
 }
 
+async function deleteCardById(id:number, userId:number){
+    await authUtils.verifyUser(userId);
 
+    const cardExists = await repoCards.findByIdAndUser(id, userId);
+    if(!cardExists) throw {type:"not found", message:"card not found"};
+    
+    await repoCards.deleteCard(id);
+    return;
+}
 
 const cardsServices = {
     createCards,
-    getCardsByUser
+    getCardsByUser,
+    deleteCardById
 }
 
 export default cardsServices;

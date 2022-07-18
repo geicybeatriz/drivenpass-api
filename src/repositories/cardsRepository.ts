@@ -26,11 +26,21 @@ async function findByUser(userId:number){
         where:{userId}
     });
 }
+
+async function deleteCard(id:number){
+    await client.cards.delete({
+        where:{id:id}
+    });
+    return;
+}
+
+
 const repoCards = {
     findByLabelAndUserId,
     insertData,
     findByIdAndUser,
-    findByUser
+    findByUser,
+    deleteCard
 }
 
 export default repoCards;

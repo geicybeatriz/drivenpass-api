@@ -44,6 +44,8 @@ async function findAllCredentials(id:number, userId:number){
 }
 
 async function deleteCredential(id:number, userId:number){
+    await authUtils.verifyUser(userId);
+    
     const verifyCredential = await repoCredentials.findByIdAndUser(id, userId);
     if(!verifyCredential) throw {type:"not found", message:"credential not found"};
 
