@@ -20,6 +20,7 @@ model Users {
   secret_notes SecretNotes[]
   cards Cards[]
   wifi Wifi[]
+  documents Documents[]
 
   @@map("users")
 }
@@ -81,3 +82,19 @@ model Cards{
 
   @@map("cards")
 }
+
+model Documents{
+  id Int @id @default(autoincrement())
+  fullname String
+  createdAt String
+  expirationDate String
+  number String
+  entity String
+  type String
+  userId Int
+  users Users @relation(fields: [userId], references: [id])
+
+  @@map("documents")
+}
+
+
