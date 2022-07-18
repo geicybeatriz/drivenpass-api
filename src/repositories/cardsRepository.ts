@@ -15,9 +15,22 @@ async function insertData(data:CreateCardsData){
     return;
 }
 
+async function findByIdAndUser(id:number, userId:number){
+    return await client.cards.findFirst({
+        where:{id, userId}
+    });
+}
+
+async function findByUser(userId:number){
+    return await client.cards.findMany({
+        where:{userId}
+    });
+}
 const repoCards = {
     findByLabelAndUserId,
-    insertData
+    insertData,
+    findByIdAndUser,
+    findByUser
 }
 
 export default repoCards;

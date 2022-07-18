@@ -1,12 +1,16 @@
 import { Credentials } from "@prisma/client";
 import repoCredentials from "../repositories/credentialsRepository.js";
-import repoUsers from "../repositories/userRepository.js";
 import authUtils from "../utils/utils.js";
 
 export type CreateCredentialsData = Omit<Credentials, "id">;
 
+function getDecryptedData(data:Credentials[]){
+    data.map((item) => {item.password = authUtils.decryptData(item.password)});
+    return data;
+}
+
 async function createCredential(data:CreateCredentialsData){
-    await repoUsers.findById(data.userId);
+    await authUtils.verifyUser(data.userId);
     
     const credentialExists = await repoCredentials.findByLabelAndUserId(data.label, data.userId);
     if(credentialExists) throw {type: "conflict", message:"this credential already exist!"};
@@ -25,8 +29,7 @@ async function createCredential(data:CreateCredentialsData){
 }
 
 async function findAllCredentials(id:number, userId:number){
-    const userExist = await repoUsers.findById(userId);
-    if(!userExist) throw {type:"not found", message:"user not found"};
+    await authUtils.verifyUser(userId);
 
     if(id){
         const credential = await repoCredentials.findByIdAndUser(id, userId);
@@ -36,7 +39,7 @@ async function findAllCredentials(id:number, userId:number){
     }
     
     const credentials = await repoCredentials.findAllByUser(userId);
-    const credentialsList = authUtils.getDataWithDecryptedPassword(credentials);
+    const credentialsList = getDecryptedData(credentials);
     return credentialsList;
 }
 
