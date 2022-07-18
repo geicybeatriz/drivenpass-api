@@ -36,13 +36,11 @@ async function insertUserData(userData:CreateUserData){
 
 async function getUserData(userData:LoginUser){
     const user = await repoUsers.findByEmail(userData.email);
-    console.log("passei");
     if(!user) throw {type:"unauthorized", message:"usuario não cadastrado"}
 
     await matchEncriptedPassword(user.password, userData.password);
 
     const token = generateToken(user.id);
-    console.log(token);
     await repoUsers.insertSession({token:token, userId:user.id});
     return token;
 }

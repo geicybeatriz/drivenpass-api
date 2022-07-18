@@ -8,7 +8,6 @@ export async function signUp(req:Request, res:Response){
 }
 
 export async function signIn(req:Request, res:Response){
-    console.log("entrei", req.body)
     const result = await authServices.getUserData(req.body);
     res.status(200).send(result);
 }
