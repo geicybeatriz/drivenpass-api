@@ -39,7 +39,7 @@ DrivenPass simula um gerenciador de senhas. Nesta aplicação, o usuário pode s
 Primeiro, faça o clone desse repositório na sua maquina:
 
 ```
-git clone https://github.com/geicybeatriz/drivenpass-api.git
+git clone git@github.com:geicybeatriz/drivenpass-api.git
 ```
 
 Depois, dentro da pasta, rode o seguinte comando para instalar as dependencias.
